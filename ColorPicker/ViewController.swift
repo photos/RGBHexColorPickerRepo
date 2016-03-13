@@ -10,16 +10,73 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    //-------------------
+    // MARK: - UI Outlets
+    //-------------------
+    @IBOutlet weak var sliderRed: UISlider!
+    @IBOutlet weak var sliderGreen: UISlider!
+    @IBOutlet weak var sliderBlue: UISlider!
+    @IBOutlet weak var redLabel: UILabel!
+    @IBOutlet weak var greenLabel: UILabel!
+    @IBOutlet weak var blueLabel: UILabel!
+    @IBOutlet weak var hexLabel: UILabel!
+    
+    // hide status bar
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
+    var redColor: Float = 0
+    var greenColor: Float = 0
+    var blueColor: Float = 0
+
+    @IBAction func redSliderAction(sender: UISlider) {
+        setColors()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func greenSliderAction(sender: UISlider) {
+        setColors()
     }
+    
+    @IBAction func blueSliderAction(sender: AnyObject) {
+        setColors()
+    }
+    
+    //-------------------
+    // MARK: - Set Colors
+    //-------------------
+    func setColors() {
+        redColor = sliderRed.value
+        greenColor = sliderGreen.value
+        blueColor = sliderBlue.value
+        
+        setLabels()
+        changeLabelColor()
+    }
+    
+    //-------------------
+    // MARK: - Set Labels
+    //-------------------
+    func setLabels() {
+        
+        // this is the best way to round!
+        let fRedColor = String(format: "%0.0f", (redColor * 255))
+        let fGreenColor = String(format: "%0.0f", (greenColor * 255))
+        let fBlueColor = String(format: "%0.0f", (blueColor * 255))
+        let rgb:Int = (Int)(redColor*255)<<16 | (Int)(greenColor*255)<<8 | (Int)(blueColor*255)<<0
 
-
+        redLabel.text = "Red: \(fRedColor)"
+        greenLabel.text = "Green: \(fGreenColor)"
+        blueLabel.text = "Blue: \(fBlueColor)"
+        hexLabel.text = "Hex: \(NSString(format:"#%06x", rgb))"
+    }
+    
+    //---------------------------
+    // MARK: - Change Label Color
+    //---------------------------
+    func changeLabelColor() {
+        
+        self.view.backgroundColor = UIColor(red: CGFloat(redColor), green: CGFloat(greenColor), blue: CGFloat(blueColor), alpha: 1.0)
+    }
 }
 
